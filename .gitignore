@@ -1,0 +1,30 @@
+# ==========================
+#  EECS3311 Java Project
+# ==========================
+
+# --- macOS system files ---
+.DS_Store
+
+# --- Java compiled files ---
+*.class
+*.jar
+*.war
+*.ear
+
+# --- Build / output directories ---
+bin/
+out/
+target/
+build/
+
+# --- VS Code & IDE config files ---
+.vscode/
+.settings/
+.idea/
+.classpath
+.project
+
+# --- Logs / temp files ---
+*.log
+*.tmp
+*.bak
