@@ -10,7 +10,7 @@ public class Payment {
     // reference to the Strategy interface
     private PaymentStrategy paymentStrategy;
 
-    // constructor (optional)
+    // constructor
     public Payment(long paymentID, double paymentAmount, String paymentDate, String bookingID) {
         this.paymentID = paymentID;
         this.paymentAmount = paymentAmount;
