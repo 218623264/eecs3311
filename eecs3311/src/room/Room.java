@@ -13,6 +13,9 @@ public class Room implements SensorSubject {
     private boolean occupied = false;
     private String scannedID = null;
 
+    private boolean enabled = true;
+    private boolean underMaintenance = false;
+
     private List<SensorObserver> observers = new ArrayList<>();
 
     public Room(String roomID, int capacity, String buildingName, String roomNumber) {
@@ -55,6 +58,24 @@ public class Room implements SensorSubject {
 
     public String getScannedID() {
         return scannedID;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        notifyObservers();
+    }
+
+    public boolean isUnderMaintenance() {
+        return underMaintenance;
+    }
+
+    public void setUnderMaintenance(boolean underMaintenance) {
+        this.underMaintenance = underMaintenance;
+        notifyObservers();
     }
 
     public String getRoomID() {
