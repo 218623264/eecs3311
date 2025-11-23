@@ -1,11 +1,14 @@
 package payment;
 
+import model.User;
+
 public class Payment {
 
     private long paymentID;
     private double paymentAmount;
     private String paymentDate;
     private String bookingID;
+    private User user;
 
     //  Strategy interface
     private PaymentStrategy paymentStrategy;
@@ -24,7 +27,7 @@ public class Payment {
 
     public void payDeposit() {
         if (paymentStrategy != null) {
-            paymentStrategy.pay(paymentAmount);
+            paymentStrategy.pay(paymentAmount, user);
         } else {
             System.out.println("Error: No payment strategy selected!");
         }
@@ -32,7 +35,7 @@ public class Payment {
 
     public void payBalance() {
         if (paymentStrategy != null) {
-            paymentStrategy.pay(paymentAmount);
+            paymentStrategy.pay(paymentAmount, user);
         } else {
             System.out.println("Error: No payment strategy selected!");
         }

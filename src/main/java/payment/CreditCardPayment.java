@@ -1,9 +1,12 @@
 package payment;
 
+import model.User;
+
 public class CreditCardPayment implements PaymentStrategy {
 
     @Override
-    public void pay(double amount) {
-        System.out.println("Payment of $" + amount + " made via Credit Card.");
+    public boolean pay(double amount, User user) {
+        System.out.println("Credit card charged: $" + amount);
+        return true;
     }
 }

@@ -7,6 +7,7 @@ public interface User {
     String password = "";
     String userType = "";
     boolean verified = false;
+    double hourlyRate = 0;
 
     void login(String email, String password);
     void logout();
@@ -17,5 +18,5 @@ public interface User {
     void setVerified(boolean verified);
     String getID();
     String getPassword();
-
+    double getHourlyRate();
 }

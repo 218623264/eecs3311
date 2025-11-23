@@ -31,7 +31,7 @@ public class MainUI extends JFrame {
     private JButton signupButton, loginButton;
     //private JButton bookButton;
 
-    private static User user;
+    private User user;
 
     public MainUI() {
         initializeLookAndFeel();
@@ -217,7 +217,7 @@ public class MainUI extends JFrame {
                 JOptionPane.showMessageDialog(null, "Login successful!");
 
                 // Switch to RoomsUI
-                RoomsUI roomsUI = new RoomsUI(MainUI.this, mainPanel);
+                RoomsUI roomsUI = new RoomsUI(MainUI.this, mainPanel, getUser());
                 setContentPane(roomsUI);
                 revalidate();
                 repaint();
@@ -286,8 +286,8 @@ public class MainUI extends JFrame {
         this.user = user;
     }
 
-    public static User getUser() {
-        return user;
+    public User getUser() {
+        return this.user;
     }
 
     public static void main(String[] args) {

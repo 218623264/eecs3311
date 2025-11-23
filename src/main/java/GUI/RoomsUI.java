@@ -1,5 +1,7 @@
 package GUI;
 
+import model.User;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -11,10 +13,12 @@ public class RoomsUI extends JPanel {
 
     private JFrame parentFrame;
     private JPanel previousPanel;
+    private User user;
 
-    public RoomsUI(JFrame parentFrame, JPanel previousPanel) {
+    public RoomsUI(JFrame parentFrame, JPanel previousPanel, User user) {
         this.parentFrame = parentFrame;
         this.previousPanel = previousPanel;
+        this.user = user;
 
         setLayout(new BorderLayout());
         setBackground(new Color(0xF8F9FA));
@@ -79,7 +83,7 @@ public class RoomsUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Now instantiates the new ExistingBookingUI class
-            ExistingBooking existingBooking = new ExistingBooking(parentFrame, RoomsUI.this, MainUI.getUser());
+            ExistingBooking existingBooking = new ExistingBooking(parentFrame, RoomsUI.this, user);
             parentFrame.setContentPane(existingBooking);
             parentFrame.revalidate();
             parentFrame.repaint();

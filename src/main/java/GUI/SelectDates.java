@@ -173,11 +173,22 @@ public class SelectDates extends JPanel {
                                 selectedRoom.getRoomID(), checkInStr, checkOutStr, getDepositFromUserType()),
                         "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // Navigate to confirmation or back to dashboard
-                parentFrame.setContentPane(previousPanel);
+                long minutes = java.time.Duration.between(checkIn, checkOut).toMinutes();
+                int hours = (int) Math.ceil(minutes / 60.0);
+                double totalPrice = hours * user.getHourlyRate();
+                PaymentUI paymentUI = new PaymentUI(
+                        parentFrame,
+                        previousPanel,
+                        booking.getBookingID(),
+                        user.getHourlyRate(),
+                        totalPrice,
+                        user
+                );
+
+                // Navigate to PaymentUI
+                parentFrame.setContentPane(paymentUI);
                 parentFrame.revalidate();
                 parentFrame.repaint();
-
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(SelectDates.this, "Invalid date format! Use YYYY-MM-DD HH:MM", "Date Error", JOptionPane.ERROR_MESSAGE);

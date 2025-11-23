@@ -1,5 +1,7 @@
 package payment;
 
+import model.User;
+
 public interface PaymentStrategy {
-    void pay(double amount);
+    boolean pay(double amount, User user);
 }

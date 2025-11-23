@@ -1,9 +1,12 @@
 package payment;
 
+import model.User;
+
 public class InstitutionalPayment implements PaymentStrategy {
 
     @Override
-    public void pay(double amount) {
-        System.out.println("Payment of $" + amount + " made via Institutional Billing.");
+    public boolean pay(double amount, User user) {
+        System.out.println("Institutional payment processed: $" + amount);
+        return true;
     }
 }

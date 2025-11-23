@@ -33,4 +33,7 @@ public class Chief implements User {
 
     @Override
     public String getPassword() { return this.password; }
+
+    @Override
+    public double getHourlyRate() { return 0; }
 }

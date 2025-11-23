@@ -51,4 +51,7 @@ public class Partner implements User {
 
     @Override
     public String getPassword() { return this.password; }
+
+    @Override
+    public double getHourlyRate() { return this.hourlyRate; }
 }
