@@ -78,57 +78,11 @@ public class RoomsUI extends JPanel {
     private class CheckBookingsAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO: Connect to real bookings list (from CSV or repository)
-            // For now: placeholder panel showing mock bookings
-            JPanel bookingsListUI = createBookingsListUI();
-            parentFrame.setContentPane(bookingsListUI);
+            // Now instantiates the new ExistingBookingUI class
+            ExistingBooking existingBooking = new ExistingBooking(parentFrame, RoomsUI.this);
+            parentFrame.setContentPane(existingBooking);
             parentFrame.revalidate();
             parentFrame.repaint();
-        }
-
-        private JPanel createBookingsListUI() {
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.setBackground(new Color(0xF8F9FA));
-            panel.setBorder(new EmptyBorder(20, 20, 20, 20));
-
-            JLabel header = new JLabel("Your Bookings", SwingConstants.CENTER);
-            header.setFont(new Font("SansSerif", Font.BOLD, 24));
-            header.setForeground(new Color(0x007BFF));
-            panel.add(header, BorderLayout.NORTH);
-
-            // Mock table (replace with real data later)
-            String[] columns = {"Booking ID", "Room", "Date/Time", "Status"};
-            Object[][] data = {
-                    {"BK001", "R101", "Nov 22, 2025 2:00 PM", "Pending"},
-                    {"BK002", "R103", "Nov 23, 2025 10:00 AM", "Completed"}
-            };
-
-            JTable table = new JTable(data, columns);
-            table.setFont(new Font("SansSerif", Font.PLAIN, 14));
-            table.setRowHeight(30);
-            table.setGridColor(new Color(0xE9ECEF));
-            table.setShowGrid(true);
-            table.getTableHeader().setBackground(new Color(0x007BFF));
-            table.getTableHeader().setForeground(Color.WHITE);
-
-            JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setPreferredSize(new Dimension(500, 200));
-            panel.add(scrollPane, BorderLayout.CENTER);
-
-            // Back button
-            JButton backButton = createStyledButton("Back", new Color(0x6C757D), 120);
-            backButton.addActionListener(ev -> {
-                parentFrame.setContentPane(previousPanel);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            });
-
-            JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            backPanel.setBackground(new Color(0xF8F9FA));
-            backPanel.add(backButton);
-            panel.add(backPanel, BorderLayout.SOUTH);
-
-            return panel;
         }
     }
 

@@ -155,7 +155,6 @@ public class SelectDates extends JPanel {
                 String checkInStr = checkInField.getText();
                 String checkOutStr = checkOutField.getText();
 
-                /*
                 LocalDateTime checkIn = LocalDateTime.parse(checkInStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                 LocalDateTime checkOut = LocalDateTime.parse(checkOutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
@@ -163,12 +162,11 @@ public class SelectDates extends JPanel {
                     JOptionPane.showMessageDialog(SelectDates.this, "Check-out time must be after check-in time!", "Invalid Dates", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                 */
 
-                BookingCommand command = new CreateBookingCommand(SelectDates.this.user, selectedRoom, checkInStr, checkOutStr);
+                BookingCommand command = new CreateBookingCommand(SelectDates.this.user, selectedRoom, checkIn, checkOut);
                 BookingInvoker invoker = new BookingInvoker();
                 invoker.setCommand(command);
-                invoker.executeCommand();
+                Booking booking = invoker.executeCommand();
                 RoomRepository.updateRoomStatus(selectedRoom.getRoomID(), true);
 
                 JOptionPane.showMessageDialog(SelectDates.this, String.format("Booking confirmed!\nRoom: %s\nCheck-in: %s\nCheck-out: %s\nDeposit: $%.2f",
@@ -179,6 +177,8 @@ public class SelectDates extends JPanel {
                 parentFrame.setContentPane(previousPanel);
                 parentFrame.revalidate();
                 parentFrame.repaint();
+
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(SelectDates.this, "Invalid date format! Use YYYY-MM-DD HH:MM", "Date Error", JOptionPane.ERROR_MESSAGE);
             }

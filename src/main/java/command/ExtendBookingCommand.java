@@ -8,5 +8,8 @@ public class ExtendBookingCommand implements BookingCommand {
     private LocalDateTime newCheckOut;
     public ExtendBookingCommand(Booking booking, LocalDateTime newCheckOut){ this.booking = booking; this.newCheckOut = newCheckOut; }
     @Override
-    public void execute() { booking.extend(newCheckOut); }
+    public Booking execute() {
+        booking.extend(newCheckOut);
+        return booking;
+    }
 }

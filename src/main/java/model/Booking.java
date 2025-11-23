@@ -1,6 +1,8 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Random;
+
 import room.*;
 import model.*;
 
@@ -20,7 +22,7 @@ public class Booking {
         staff,
         partner
     }
-    private String bookingID;
+    private int bookingID;
 
     // Temporary placeholders (replace later)
     private User user;
@@ -40,10 +42,11 @@ public class Booking {
     // -----------------------------
     // Constructor
     // -----------------------------
-    public Booking(String bookingID, User user, Room room,
+    public Booking(User user, Room room,
                    LocalDateTime checkInTime, LocalDateTime checkOutTime) {
 
-        this.bookingID = bookingID;
+        Random random = new Random();
+        this.bookingID = random.nextInt(900) + 100;
         this.user = user;
         this.room = room;
         this.roomID = room.getRoomID();
@@ -58,9 +61,9 @@ public class Booking {
             default -> 50.0;
         };
 
-        this.depositAmount = hourlyRate;
-        long hours = java.time.Duration.between(checkInTime, checkOutTime).toHours();
-        this.totalPrice = hourlyRate * hours;
+        this.depositAmount = this.hourlyRate;
+        long hours = java.time.Duration.between(this.checkInTime, this.checkOutTime).toHours();
+        this.totalPrice = this.hourlyRate * hours;
     }
 
 
@@ -181,9 +184,11 @@ public class Booking {
         }
     }
 
+    /*
     public String checkStatus() {
         return status.toString();
     }
+     */
 
     // -----------------------------
     // Check-in (Req5)
@@ -203,35 +208,39 @@ public class Booking {
     // -----------------------------
     // Getters
     // -----------------------------
-    public String getBookingID() {
-        return bookingID;
+    public int getBookingID() {
+        return this.bookingID;
     }
 
-    public String getUserID() {
-        return user.getID();
+    public User getUser() {
+        return this.user;
     }
 
-    public String getRoomID() {
-        return roomID;
+    public Room getRoom() {
+        return this.room;
     }
 
     public LocalDateTime getCheckInTime() {
-        return checkInTime;
+        return this.checkInTime;
     }
 
     public LocalDateTime getCheckOutTime() {
-        return checkOutTime;
+        return this.checkOutTime;
     }
 
     public double getDepositAmount() {
-        return depositAmount;
+        return this.depositAmount;
     }
 
     public double getTotalPrice() {
-        return totalPrice;
+        return this.totalPrice;
     }
 
     public BookingStatus getStatus() {
-        return status;
+        return this.status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
     }
 }

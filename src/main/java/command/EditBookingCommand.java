@@ -12,5 +12,8 @@ public class EditBookingCommand implements BookingCommand {
         this.newCheckOut = newCheckOut;
     }
     @Override
-    public void execute() { booking.edit(newCheckIn, newCheckOut); }
+    public Booking execute() {
+        booking.edit(newCheckIn, newCheckOut);
+        return booking;
+    }
 }
