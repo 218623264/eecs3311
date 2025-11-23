@@ -50,19 +50,32 @@ public class Booking {
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
         this.status = BookingStatus.Pending;
+
+        this.hourlyRate = switch (user.getAccountType().toLowerCase()) {
+            case "student" -> 20.0;
+            case "faculty" -> 30.0;
+            case "staff" -> 40.0;
+            default -> 50.0;
+        };
+
+        this.depositAmount = hourlyRate;
+        long hours = java.time.Duration.between(checkInTime, checkOutTime).toHours();
+        this.totalPrice = hourlyRate * hours;
     }
+
+
 
     // -----------------------------
     // Methods to Implement Later
     // -----------------------------
-
+    /*
     public void create() {
         // TODO: Req3 - pricing logic (based on user type)
         // TODO: Req8 - validate ID format (just basic check)
         // TODO: Req8 - enforce timing rules
         // TODO: calculate deposit (1-hour fee)
         // TODO: set status to Pending
-        switch(user){
+        switch(this.user){
             case student:
                 this.depositAmount = 20.0;
                 this.hourlyRate = 20.0;
@@ -83,6 +96,18 @@ public class Booking {
         long hours = java.time.Duration.between(checkInTime, checkOutTime).toHours();
         this.totalPrice = hours * this.hourlyRate;
         this.status = BookingStatus.Pending;
+    }
+    */
+
+    // -----------------------------
+    // New: create() method – called by command
+    // -----------------------------
+    public void create() {
+        // This is where you do final actions when booking is "committed"
+        // For now: just mark as pending and print
+        this.status = BookingStatus.Pending;
+        System.out.println("Booking " + bookingID + " created for " + user.getEmail());
+        //System.out.println("Deposit required: $" + depositPaid);
     }
 
     public void edit(LocalDateTime newCheckIn, LocalDateTime newCheckOut) {
@@ -160,9 +185,15 @@ public class Booking {
         return status.toString();
     }
 
-    public void checkIn(String userID) {
-        // TODO: badge/ID validation mock
+    // -----------------------------
+    // Check-in (Req5)
+    // -----------------------------
+    public void checkIn(String scannedBadgeID) {
+        if (!user.getID().equals(scannedBadgeID)) {
+            throw new SecurityException("Badge ID does not match booking!");
+        }
         this.status = BookingStatus.CheckedIn;
+        applyDeposit(); // Auto-apply if on time
     }
 
     public void checkOut() {
@@ -176,8 +207,8 @@ public class Booking {
         return bookingID;
     }
 
-    public UserType getUserID() {
-        return userID;
+    public String getUserID() {
+        return user.getID();
     }
 
     public String getRoomID() {

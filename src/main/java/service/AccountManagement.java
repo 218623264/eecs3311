@@ -1,4 +1,5 @@
 package service;
+
 import java.util.ArrayList;
 import java.util.List;
 import model.*;
@@ -6,8 +7,13 @@ import factory.*;
 
 public class AccountManagement {
 
-    private List<User> accounts = new ArrayList<>();
+    private static List<User> users = new ArrayList<>();
     private UserFactory factory;
+    private static AccountManagement instance = new AccountManagement(new ConcreteUserFactory());
+
+    public static AccountManagement getInstance() {
+        return instance;
+    }
 
     public AccountManagement(ConcreteUserFactory factory) {
         this.factory = factory;
@@ -51,7 +57,7 @@ public class AccountManagement {
 
 
         User newUser = factory.createUser(type, email, password, organizationID);
-        accounts.add(newUser);
+        users.add(newUser);
 
         System.out.println(type + " account created successfully for " + email);
         return newUser;
@@ -82,7 +88,7 @@ public class AccountManagement {
         }
 
         Admin admin = (Admin) user;
-        accounts.add(admin);
+        users.add(admin);
 
         System.out.println("Chief " + chief.getEmail() + " created admin: " + adminEmail);
         return admin;
@@ -91,7 +97,7 @@ public class AccountManagement {
 
 
     private boolean isEmailTaken(String email) {
-        for (User u : accounts) {
+        for (User u : users) {
             if (u.getEmail().equalsIgnoreCase(email)) {
                 return true;
             }
@@ -111,5 +117,18 @@ public class AccountManagement {
         boolean hasDigit = password.matches(".*[0-9].*");
         boolean hasSymbol = password.matches(".*[^A-Za-z0-9].*");
         return hasUpper && hasLower && hasDigit && hasSymbol;
+    }
+
+    public static User findUserByEmail(String email) {
+        for (User u : users) {
+            if (u.getEmail().equalsIgnoreCase(email)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public static void addUser(User user) {
+        users.add(user);
     }
 }

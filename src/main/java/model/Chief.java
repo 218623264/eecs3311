@@ -1,9 +1,12 @@
 package model;
 
 public class Chief implements User {
+
     private String email;
     private String password;
     private boolean verified;
+    private String userType = "chief";
+    private String userID = "chief";
 
     public Chief(String email, String password) {
         this.email = email;
@@ -11,7 +14,7 @@ public class Chief implements User {
     }
 
     @Override public String getEmail() { return email; }
-    @Override public String getAccountType() { return "chief"; }
+    @Override public String getAccountType() { return userType; }
 
     @Override public void login(String email, String password) { }
     @Override public void logout() { }
@@ -26,4 +29,6 @@ public class Chief implements User {
     public void setVerified(boolean v)
     { verified = v; }
 
+    @Override
+    public String getID() { return this.userID; }
 }

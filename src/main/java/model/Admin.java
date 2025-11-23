@@ -3,9 +3,13 @@ package model;
 import room.*;
 
 public class Admin implements User {
+
     private String email;
     private String password;
     private boolean verified;
+    private String userType = "admin";
+    private String userID = "admin";
+
     public Admin(String email, String password) {
         this.email = email;
         this.password = password;
@@ -38,7 +42,7 @@ public class Admin implements User {
 
     @Override
     public String getAccountType(){
-        return "Admin";
+        return userType;
     }
 
     public void addRoom(Room room) {
@@ -51,6 +55,8 @@ public class Admin implements User {
         room.setEnabled(false);
     }
 
-
     @Override public String getEmail() { return email; }
+
+    @Override
+    public String getID() {return this.userID; }
 }

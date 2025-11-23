@@ -1,13 +1,19 @@
 package GUI;
 
+import model.User;
+import service.AccountManagement;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class MainUI extends JFrame {
+
+    private static final String USERS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
 
     // Constants for styling
     private static final Color PRIMARY_COLOR = new Color(0x007BFF); // Blue theme
@@ -18,11 +24,14 @@ public class MainUI extends JFrame {
     private static final int BORDER_RADIUS = 10;
 
     // Components
+    private JPanel mainPanel;
     private JLabel titleLabel;
     private JTextField emailField, passwordField, roomIdField;
     private JComboBox<String> userTypeCombo;
     private JButton signupButton, loginButton;
     //private JButton bookButton;
+
+    private User user;
 
     public MainUI() {
         initializeLookAndFeel();
@@ -33,7 +42,7 @@ public class MainUI extends JFrame {
         getContentPane().setBackground(BACKGROUND_COLOR);
 
         // Main panel with padding
-        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(BACKGROUND_COLOR);
 
@@ -61,11 +70,13 @@ public class MainUI extends JFrame {
         styleTextField(passwordField);
         addComponent(mainPanel, passwordField, 1, 3, 1, 1, GridBagConstraints.EAST);
 
+        /*
         // Room ID field
         JLabel roomIdLabel = createStyledLabel("Room ID:", LABEL_FONT, SECONDARY_COLOR);
         addComponent(mainPanel, roomIdLabel, 0, 4, 1, 1, GridBagConstraints.WEST);
         roomIdField = createStyledTextField();
         addComponent(mainPanel, roomIdField, 1, 4, 1, 1, GridBagConstraints.EAST);
+         */
 
         // Buttons panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -184,14 +195,75 @@ public class MainUI extends JFrame {
         }
     }
 
-    // Action Listener for Login (Placeholder)
+    // Action Listener for Login
     private class LoginAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Implement login logic (Req1)
-            JOptionPane.showMessageDialog(null, "Login successful!");
+            String email = emailField.getText();
+            String password = new String(((JPasswordField) passwordField).getPassword());
+            String type = (String) userTypeCombo.getSelectedItem();
+
+            /* (Correct code, greyed out for development phase)
+            if (email.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please fill in both email and password!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (validateLogin(email, password, type)) {
+                JOptionPane.showMessageDialog(null, "Login successful!");
+
+                // Switch to RoomsUI
+                RoomsUI roomsUI = new RoomsUI(MainUI.this, mainPanel);
+                setContentPane(roomsUI);
+                revalidate();
+                repaint();
+             */
+            // For development phase only. Delete after
+            if (validateLogin()) {
+                JOptionPane.showMessageDialog(null, "Login successful!");
+
+                // To RoomsUI
+                RoomsUI roomsUI = new RoomsUI(MainUI.this, mainPanel);
+                setContentPane(roomsUI);
+                revalidate();
+                repaint();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid email, password, or user type!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
+
+    /* (Correct code, greyed out for development phase)
+    private boolean validateLogin(String email, String password, String type) {
+        try (BufferedReader br = new BufferedReader(new FileReader(USERS_PATH))) {
+            String line = br.readLine(); // Skip header
+
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+
+                String[] parts = line.split(",");
+                if (parts.length < 4) continue;
+
+                String storedEmail = parts[0].trim();
+                String storedPassword = parts[1].trim();
+                String storedType = parts[2].trim();
+
+                if (storedEmail.equalsIgnoreCase(email) &&
+                        storedPassword.equals(password) &&
+                        storedType.equalsIgnoreCase(type)) {
+                    return true;
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Login CSV read failed: " + ex.getMessage());
+        }
+        return false;
+    }
+     */
+
+    // For development phase only, delete after
+    private boolean  validateLogin() {return true;}
 
     /*
     // Action Listener for Book Room (Placeholder)
@@ -203,6 +275,14 @@ public class MainUI extends JFrame {
         }
     }
     */
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
 
 
     public static void main(String[] args) {

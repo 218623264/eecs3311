@@ -3,6 +3,7 @@ package command;
 import model.Booking;
 
 public class CreateBookingCommand implements BookingCommand {
+
     private Booking booking;
 
     public CreateBookingCommand(Booking booking) {
@@ -11,7 +12,8 @@ public class CreateBookingCommand implements BookingCommand {
 
     @Override
     public void execute() {
-        booking.create();
+        this.booking.create();
+
     }
 
 }

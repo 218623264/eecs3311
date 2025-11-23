@@ -1,15 +1,18 @@
 package model;
 
 public class Partner implements User {
+
     private String email;
     private String password;
-    private String organizationID;
+    private String userID;
     private boolean verified;
     private double hourlyRate = 50.0;
-    public Partner(String email, String password, String organizationID) {
+    private String userType = "partner";
+
+    public Partner(String email, String password, String userID) {
         this.email = email;
         this.password = password;
-        this.organizationID= organizationID;
+        this.userID= userID;
         this.verified= false;
     }
 
@@ -39,7 +42,10 @@ public class Partner implements User {
 
     @Override
     public String getAccountType() {
-        return "partner"; }
+        return userType; }
 
     @Override public String getEmail() { return email; }
+
+    @Override
+    public String getID() { return this.userID; }
 }

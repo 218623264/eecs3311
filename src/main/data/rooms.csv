@@ -1,0 +1,6 @@
+﻿roomID,capacity,buildingName,roomNumber,isAvailable
+R101,30,Bergeron Centre,101,true
+R102,50,Bergeron Centre,102,true
+R103,20,Vari Hall,201,true
+R104,20,Ross Building North,106,true
+R105,10,Lassonde building,308,true

@@ -4,15 +4,15 @@ public class Student implements User {
 
     private String email;
     private String password;
-    private String organizationID;
+    private String userID;
     private boolean verified;
     private double hourlyRate = 20.0;
-    private int studnetID;
+    private String userType = "student";
 
-    public Student(String email, String password, String organizationID) {
+    public Student(String email, String password, String userID) {
         this.email = email;
         this.password = password;
-        this.organizationID= organizationID;
+        this.userID= userID;
         this.verified= false;
     }
 
@@ -41,9 +41,10 @@ public class Student implements User {
 
     @Override
     public String getAccountType() {
-        return "student"; }
+        return userType; }
 
     @Override public String getEmail() { return email; }
 
-    //public int getStudnetID() { return studnetID; }
+    @Override
+    public String getID() { return this.userID; }
 }

@@ -1,16 +1,18 @@
 package model;
 
 public class Faculty implements User {
+
     private String email;
     private String password;
-    private String organizationID;
+    private String userID;
     private boolean verified;
     private double hourlyRate = 30.0;
+    private String userType = "faculty";
 
-    public Faculty(String email, String password, String OrganizationID) {
+    public Faculty(String email, String password, String userID) {
         this.email = email;
         this.password = password;
-        this.organizationID= OrganizationID;
+        this.userID= userID;
         this.verified= false;
     }
 
@@ -39,7 +41,10 @@ public class Faculty implements User {
 
     @Override
     public String getAccountType()
-    { return "faculty"; }
+    { return userType; }
 
     @Override public String getEmail() { return email; }
+
+    @Override
+    public String getID() { return this.userID; }
 }
