@@ -79,7 +79,7 @@ public class RoomsUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Now instantiates the new ExistingBookingUI class
-            ExistingBooking existingBooking = new ExistingBooking(parentFrame, RoomsUI.this);
+            ExistingBooking existingBooking = new ExistingBooking(parentFrame, RoomsUI.this, MainUI.getUser());
             parentFrame.setContentPane(existingBooking);
             parentFrame.revalidate();
             parentFrame.repaint();

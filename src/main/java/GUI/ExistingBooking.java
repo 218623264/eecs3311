@@ -3,6 +3,10 @@ package GUI;
 import command.BookingCommand;
 import command.BookingInvoker;
 import model.Booking;
+import model.User;
+import room.Room;
+import room.RoomRepository;
+import service.AccountManagement;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,9 +29,12 @@ public class ExistingBooking extends JPanel {
     private JPanel previousPanel;
     private JTable bookingTable;
 
-    public ExistingBooking(JFrame parentFrame, JPanel previousPanel) {
+    private User user;
+
+    public ExistingBooking(JFrame parentFrame, JPanel previousPanel, User user) {
         this.parentFrame = parentFrame;
         this.previousPanel = previousPanel;
+        this.user = user;
 
         setLayout(new BorderLayout());
         setBackground(new Color(0xF8F9FA));
@@ -69,6 +76,11 @@ public class ExistingBooking extends JPanel {
         backPanel.setBackground(new Color(0xF8F9FA));
         backPanel.add(backButton);
         add(backPanel, BorderLayout.SOUTH);
+
+        // Edit button
+        JButton editButton = createStyledButton("Edit Booking", new Color(0x17A2B8), 150);
+        editButton.addActionListener(e -> openEditDates());
+        backPanel.add(editButton);
     }
 
     private void populateTable(List<BookingRow> bookings) {
@@ -94,8 +106,8 @@ public class ExistingBooking extends JPanel {
             model.addRow(new Object[]{
                     booking.bookingID,
                     booking.roomID,
-                    booking.checkInTime,
-                    booking.checkOutTime,
+                    booking.checkInTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+                    booking.checkOutTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
                     "$" + booking.deposit,
                     booking.user,
                     "$" + booking.totalPrice,
@@ -316,10 +328,34 @@ public class ExistingBooking extends JPanel {
         return true;
     }
 
-    private void refreshTable() {
+    void refreshTable() {
         List<BookingRow> bookings = loadBookingsFromCsv();
         populateTable(bookings);
         revalidate();
         repaint();
+    }
+
+    private void openEditDates() {
+        int row = bookingTable.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a booking to edit.");
+            return;
+        }
+
+        // Extract booking data from table
+        String bookingID = bookingTable.getValueAt(row, 0).toString();
+        String roomID = bookingTable.getValueAt(row, 1).toString();
+        String checkInStr = bookingTable.getValueAt(row, 2).toString();
+        String checkOutStr = bookingTable.getValueAt(row, 3).toString();
+        String userEmail = bookingTable.getValueAt(row, 5).toString();
+
+        // Convert to objects
+        Room room = RoomRepository.getRoomByID(roomID);
+        User user = AccountManagement.getInstance().findUserByEmail(userEmail);
+
+        EditDates editUI = new EditDates(parentFrame, this, bookingID, room, this.user, checkInStr, checkOutStr);
+        parentFrame.setContentPane(editUI);
+        parentFrame.revalidate();
+        parentFrame.repaint();
     }
 }

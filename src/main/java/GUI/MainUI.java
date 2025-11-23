@@ -31,7 +31,7 @@ public class MainUI extends JFrame {
     private JButton signupButton, loginButton;
     //private JButton bookButton;
 
-    private User user;
+    private static User user;
 
     public MainUI() {
         initializeLookAndFeel();
@@ -286,8 +286,8 @@ public class MainUI extends JFrame {
         this.user = user;
     }
 
-    public User getUser() {
-        return this.user;
+    public static User getUser() {
+        return user;
     }
 
     public static void main(String[] args) {
