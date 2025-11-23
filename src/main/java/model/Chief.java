@@ -24,11 +24,13 @@ public class Chief implements User {
     public boolean isVerified()
     { return verified; }
 
-
     @Override
     public void setVerified(boolean v)
     { verified = v; }
 
     @Override
     public String getID() { return this.userID; }
+
+    @Override
+    public String getPassword() { return this.password; }
 }

@@ -1,5 +1,6 @@
 package GUI;
 
+import model.User;
 import room.*;
 
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class BookRoomUI extends JPanel {
         List<Room> rooms = room.RoomRepository.getAllRooms();
 
         // Table setup
-        String[] columns = {"Room Number", "Location", "Capacity", "Status"};
+        String[] columns = {"RoomID", "Location", "Room Number", "Capacity", "Status"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -57,8 +58,9 @@ public class BookRoomUI extends JPanel {
             String status = room.isOccupied() ? "Occupied" : "Available";
 
             Object[] rowData = {
-                    room.getRoomNumber(),
+                    room.getRoomID(),
                     room.getFullLocation(),
+                    room.getRoomNumber(),
                     room.getCapacity(),
                     status
             };
@@ -78,17 +80,23 @@ public class BookRoomUI extends JPanel {
         roomTable.getTableHeader().setForeground(Color.WHITE);
 
         // Custom cell renderer
+        // Custom cell renderer
         roomTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
                                                            boolean isSelected, boolean hasFocus,
                                                            int row, int column) {
+
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
                 if (!isSelected) {
-                    boolean occupied = table.getValueAt(row, 3).toString().equals("Occupied");
+                    // ⭐ Correct location for status check:
+                    boolean occupied = table.getValueAt(row, 4).toString().equals("Occupied");
+
                     c.setBackground(occupied ? new Color(0xFFE5E5) : new Color(0xE8F8E8));
                     c.setForeground(occupied ? new Color(0xC82333) : new Color(0x1B4332));
                 }
+
                 return c;
             }
         });
@@ -96,7 +104,6 @@ public class BookRoomUI extends JPanel {
         JScrollPane scrollPane = new JScrollPane(roomTable);
         scrollPane.setBorder(new LineBorder(new Color(0xDEE2E6), 1, true));
         add(scrollPane, BorderLayout.CENTER);
-
 
         // Buttons panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
@@ -122,18 +129,20 @@ public class BookRoomUI extends JPanel {
                 return;
             }
 
-            String status = (String) tableModel.getValueAt(selectedRow, 3);
+            String status = (String) tableModel.getValueAt(selectedRow, 4);
             if ("Occupied".equals(status)) {
                 JOptionPane.showMessageDialog(BookRoomUI.this, "This room is currently occupied!", "Unavailable", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            String roomId = (String) tableModel.getValueAt(selectedRow, 0);
-            JOptionPane.showMessageDialog(BookRoomUI.this,
-                    "Room " + roomId + " booked successfully!\n(Booking logic will go here)",
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            String roomID = (String) tableModel.getValueAt(selectedRow, 0);
+            Room selectedRoom = RoomRepository.getRoomByID(roomID);
+            User user = ((MainUI) parentFrame).getUser(); // Get from session or facade
 
-            // TODO: Later connect to BookingService.createBooking(...)
+            SelectDates selectDates = new SelectDates(parentFrame, BookRoomUI.this, selectedRoom, user);
+            parentFrame.setContentPane(selectDates);
+            parentFrame.revalidate();
+            parentFrame.repaint();
         }
     }
 

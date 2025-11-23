@@ -1,5 +1,6 @@
 package service;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.*;
@@ -8,7 +9,7 @@ import factory.*;
 public class AccountManagement {
 
     private static List<User> users = new ArrayList<>();
-    private UserFactory factory;
+    private static UserFactory factory;
     private static AccountManagement instance = new AccountManagement(new ConcreteUserFactory());
 
     public static AccountManagement getInstance() {
@@ -119,12 +120,51 @@ public class AccountManagement {
         return hasUpper && hasLower && hasDigit && hasSymbol;
     }
 
+    /*
     public static User findUserByEmail(String email) {
         for (User u : users) {
             if (u.getEmail().equalsIgnoreCase(email)) {
                 return u;
             }
         }
+        return null;
+    }
+     */
+
+    public static User findUserByEmail(String email) {
+        String path = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line = br.readLine(); // skip header
+
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+                String[] parts = line.split(",");
+                if (parts.length < 5) continue;
+
+                String storedEmail = parts[0].trim();
+                if (storedEmail.equalsIgnoreCase(email)) {
+                    String password = parts[1].trim();
+                    String type = parts[2].trim();
+                    String orgID = parts[3].trim();
+                    boolean verified = Boolean.parseBoolean(parts[4].trim());
+
+                    // Create the correct User subtype from backend
+                    User user = factory.createUser(type, storedEmail, password, orgID);
+                    user.setVerified(verified);
+
+                    // sync memory list
+                    if (!users.contains(user)) {
+                        users.add(user);
+                    }
+
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error reading Users.csv: " + e.getMessage());
+        }
+
         return null;
     }
 

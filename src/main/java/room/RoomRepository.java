@@ -24,4 +24,14 @@ public class RoomRepository {
         }
         return null;
     }
+
+    public static boolean updateRoomStatus(String roomID, boolean occupied) {
+        for (Room room : rooms) {
+            if (room.getRoomID().equals(roomID)) {
+                room.setOccupied(occupied);
+                return true;
+            }
+        }
+        return false;
+    }
 }

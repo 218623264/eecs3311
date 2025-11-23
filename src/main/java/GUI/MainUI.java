@@ -203,13 +203,17 @@ public class MainUI extends JFrame {
             String password = new String(((JPasswordField) passwordField).getPassword());
             String type = (String) userTypeCombo.getSelectedItem();
 
-            /* (Correct code, greyed out for development phase)
+            // (Correct code, greyed out for development phase)
             if (email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please fill in both email and password!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (validateLogin(email, password, type)) {
+
+                User user = AccountManagement.getInstance().findUserByEmail(email);
+                setUser(user);
+
                 JOptionPane.showMessageDialog(null, "Login successful!");
 
                 // Switch to RoomsUI
@@ -217,9 +221,11 @@ public class MainUI extends JFrame {
                 setContentPane(roomsUI);
                 revalidate();
                 repaint();
-             */
+
+            /*
             // For development phase only. Delete after
             if (validateLogin()) {
+
                 JOptionPane.showMessageDialog(null, "Login successful!");
 
                 // To RoomsUI
@@ -227,14 +233,15 @@ public class MainUI extends JFrame {
                 setContentPane(roomsUI);
                 revalidate();
                 repaint();
-
+            */
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid email, password, or user type!", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         }
     }
 
-    /* (Correct code, greyed out for development phase)
+    // (Correct code, greyed out for development phase)
     private boolean validateLogin(String email, String password, String type) {
         try (BufferedReader br = new BufferedReader(new FileReader(USERS_PATH))) {
             String line = br.readLine(); // Skip header
@@ -260,10 +267,9 @@ public class MainUI extends JFrame {
         }
         return false;
     }
-     */
 
     // For development phase only, delete after
-    private boolean  validateLogin() {return true;}
+    //private boolean  validateLogin() {return true;}
 
     /*
     // Action Listener for Book Room (Placeholder)
@@ -283,7 +289,6 @@ public class MainUI extends JFrame {
     public User getUser() {
         return this.user;
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MainUI::new);

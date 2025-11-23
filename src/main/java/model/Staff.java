@@ -42,8 +42,11 @@ public class Staff implements User {
     public String getAccountType() {
         return userType; }
 
-    @Override public String getEmail() { return email; }
+    @Override public String getEmail() { return this.email; }
 
     @Override
     public String getID() { return this.userID; }
+
+    @Override
+    public String getPassword() { return this.password; }
 }

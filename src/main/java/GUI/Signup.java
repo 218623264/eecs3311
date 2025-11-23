@@ -217,8 +217,8 @@ public class Signup extends JPanel {
             saveUserToCsv(email, password, type, id);
 
             // Create new User object based on entered information
-            UserFactory factory = new ConcreteUserFactory();
-            factory.createUser(type, email, password, id);
+            ConcreteUserFactory concreteFactory = new ConcreteUserFactory();
+            User user = concreteFactory.createUser(type, email, password, id);
 
             JOptionPane.showMessageDialog(null, "Account created successfully for " + type + "!");
             switchToOriginalPanel();  // Return to main panel

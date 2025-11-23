@@ -59,4 +59,7 @@ public class Admin implements User {
 
     @Override
     public String getID() {return this.userID; }
+
+    @Override
+    public String getPassword() { return this.password; }
 }

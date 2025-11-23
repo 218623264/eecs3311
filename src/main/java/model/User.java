@@ -3,8 +3,10 @@ package model;
 public interface User {
 
     String userID = "";
-    //String userName();
+    String email = "";
+    String password = "";
     String userType = "";
+    boolean verified = false;
 
     void login(String email, String password);
     void logout();
@@ -14,5 +16,6 @@ public interface User {
     boolean isVerified();
     void setVerified(boolean verified);
     String getID();
+    String getPassword();
 
 }
