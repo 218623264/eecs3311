@@ -132,7 +132,8 @@ public class AccountManagement {
      */
 
     public static User findUserByEmail(String email) {
-        String path = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
+        String path = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
+        //String path = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine(); // skip header

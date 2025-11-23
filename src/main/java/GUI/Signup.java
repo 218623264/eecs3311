@@ -32,8 +32,10 @@ import java.util.Set;
  */
 public class Signup extends JPanel {
 
-    private static final String UACCOUNTS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\UAccounts.csv";
-    private static final String USERS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
+    private static final String USERS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
+    private static final String UACCOUNTS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/UAccounts.csv";
+    //private static final String UACCOUNTS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\UAccounts.csv";
+    //private static final String USERS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
 
     // In-memory user storage for simulation (email uniqueness)
     private static List<String> existingEmails = new ArrayList<>();

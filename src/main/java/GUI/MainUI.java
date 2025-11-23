@@ -13,7 +13,8 @@ import java.io.*;
 
 public class MainUI extends JFrame {
 
-    private static final String USERS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
+    //ivate static final String USERS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
+    private static final String USERS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
 
     // Constants for styling
     private static final Color PRIMARY_COLOR = new Color(0x007BFF); // Blue theme

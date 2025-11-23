@@ -15,7 +15,8 @@ import java.util.List;
 
 public class BookRoomUI extends JPanel {
 
-    private static final String ROOMS_CSV_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\rooms.csv";
+    private static final String ROOMS_CSV_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/rooms.csv";
+    //private static final String ROOMS_CSV_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\rooms.csv";
 
     private JTable roomTable;
     private DefaultTableModel tableModel;

@@ -132,7 +132,8 @@ public class EditDates extends JPanel {
 
     private void updateBookingInCSV(String bookingID, LocalDateTime newCheckIn, LocalDateTime newCheckOut) {
 
-        File inputFile = new File("E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv");
+        String bookingPath = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
+        File inputFile = new File(bookingPath);
         File tempFile = new File("booking_temp.csv");
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

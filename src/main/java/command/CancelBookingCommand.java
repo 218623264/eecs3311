@@ -18,7 +18,8 @@ public class CancelBookingCommand implements BookingCommand {
     @Override
     public Booking execute() {
 
-        String csvPath = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv";
+        String csvPath = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
+        //String csvPath = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv";
         boolean removed = false;
         List<String> updatedLines = new ArrayList<>();
 

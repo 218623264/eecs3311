@@ -23,7 +23,8 @@ import java.util.List;
 
 public class ExistingBooking extends JPanel {
 
-    private static final String BOOKINGS_CSV_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv";
+    private static final String BOOKINGS_CSV_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
+    //private static final String BOOKINGS_CSV_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv";
 
     private JFrame parentFrame;
     private JPanel previousPanel;
