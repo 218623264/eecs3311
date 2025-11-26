@@ -122,7 +122,6 @@ public class PaymentUI extends JPanel {
         }
     }
 
-
     private JButton createStyledButton(String text, Color color) {
         JButton button = new JButton(text);
         button.setFont(new Font("SansSerif", Font.BOLD, 16));

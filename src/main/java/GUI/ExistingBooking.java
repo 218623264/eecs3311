@@ -24,7 +24,6 @@ import java.util.List;
 public class ExistingBooking extends JPanel {
 
     private static final String BOOKINGS_CSV_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
-    //private static final String BOOKINGS_CSV_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv";
 
     private JFrame parentFrame;
     private JPanel previousPanel;
@@ -146,9 +145,8 @@ public class ExistingBooking extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(bookingTable);
         add(scrollPane, BorderLayout.CENTER);
-        //add(new JScrollPane(bookingTable), BorderLayout.CENTER);
 
-        // ---------- BACK BUTTON ----------
+        // BACK BUTTON
         JButton backButton = createStyledButton("Back", new Color(0x6C757D), 150);
         backButton.addActionListener(e -> {
             parentFrame.setContentPane(previousPanel);
@@ -173,7 +171,7 @@ public class ExistingBooking extends JPanel {
         try (BufferedReader br = new BufferedReader(new FileReader(BOOKINGS_CSV_PATH))) {
             String line = br.readLine(); // Skip header
             if (line == null) {
-                return bookings; // Empty file
+                return bookings;
             }
 
             while ((line = br.readLine()) != null) {
@@ -203,7 +201,7 @@ public class ExistingBooking extends JPanel {
         return bookings;
     }
 
-    // Static utility to save a new booking to CSV (call this from booking creation)
+    // Save a new booking to CSV
     public static void saveBookingToCsv(String bookingID, String roomID, LocalDateTime checkIn, LocalDateTime checkOut, double deposit, String user, double totalPrice, String status) {
         try (FileWriter writer = new FileWriter(BOOKINGS_CSV_PATH, true)) {
             // Add header if file is empty
@@ -305,7 +303,7 @@ public class ExistingBooking extends JPanel {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith(bookingID + ",")) {
-                    removed = true;  // found and skip it
+                    removed = true;
                 } else {
                     lines.add(line);
                 }
@@ -350,7 +348,6 @@ public class ExistingBooking extends JPanel {
         String checkOutStr = bookingTable.getValueAt(row, 3).toString();
         String userEmail = bookingTable.getValueAt(row, 5).toString();
 
-        // Convert to objects
         Room room = RoomRepository.getRoomByID(roomID);
         User user = AccountManagement.getInstance().findUserByEmail(userEmail);
 

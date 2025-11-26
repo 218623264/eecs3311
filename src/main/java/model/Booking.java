@@ -6,16 +6,8 @@ import java.util.Random;
 import room.*;
 import model.*;
 
-/**
- * Initial Booking class skeleton.
- * No external dependencies yet.
- * You can integrate User, Room, and Payment later.
- */
 public class Booking {
 
-    // -----------------------------
-    // Fields (Basic)
-    // -----------------------------
     public enum UserType{
         student,
         faculty,
@@ -24,10 +16,8 @@ public class Booking {
     }
     private int bookingID;
 
-    // Temporary placeholders (replace later)
     private User user;
-    //private int userID;
-    private Room room; // later convert to Room object
+    private Room room;
     private String roomID;
 
     private LocalDateTime checkInTime;
@@ -39,9 +29,6 @@ public class Booking {
 
     private BookingStatus status;
 
-    // -----------------------------
-    // Constructor
-    // -----------------------------
     public Booking(User user, Room room,
                    LocalDateTime checkInTime, LocalDateTime checkOutTime) {
 
@@ -66,51 +53,9 @@ public class Booking {
         this.totalPrice = this.hourlyRate * hours;
     }
 
-
-
-    // -----------------------------
-    // Methods to Implement Later
-    // -----------------------------
-    /*
     public void create() {
-        // TODO: Req3 - pricing logic (based on user type)
-        // TODO: Req8 - validate ID format (just basic check)
-        // TODO: Req8 - enforce timing rules
-        // TODO: calculate deposit (1-hour fee)
-        // TODO: set status to Pending
-        switch(this.user){
-            case student:
-                this.depositAmount = 20.0;
-                this.hourlyRate = 20.0;
-                break;
-            case faculty:
-                this.depositAmount = 30.0;
-                this.hourlyRate = 30.0;
-                break;
-            case staff:
-                this.depositAmount = 40.0;
-                this.hourlyRate = 40.0;
-                break;
-            case partner:
-                this.depositAmount = 50.0;
-                this.hourlyRate = 50.0;
-                break;
-        }
-        long hours = java.time.Duration.between(checkInTime, checkOutTime).toHours();
-        this.totalPrice = hours * this.hourlyRate;
-        this.status = BookingStatus.Pending;
-    }
-    */
-
-    // -----------------------------
-    // New: create() method – called by command
-    // -----------------------------
-    public void create() {
-        // This is where you do final actions when booking is "committed"
-        // For now: just mark as pending and print
         this.status = BookingStatus.Pending;
         System.out.println("Booking " + bookingID + " created for " + user.getEmail());
-        //System.out.println("Deposit required: $" + depositPaid);
     }
 
     public void edit(LocalDateTime newCheckIn, LocalDateTime newCheckOut) {
@@ -184,12 +129,6 @@ public class Booking {
         }
     }
 
-    /*
-    public String checkStatus() {
-        return status.toString();
-    }
-     */
-
     // -----------------------------
     // Check-in (Req5)
     // -----------------------------
@@ -198,16 +137,13 @@ public class Booking {
             throw new SecurityException("Badge ID does not match booking!");
         }
         this.status = BookingStatus.CheckedIn;
-        applyDeposit(); // Auto-apply if on time
+        applyDeposit();
     }
 
     public void checkOut() {
         this.status = BookingStatus.Completed;
     }
 
-    // -----------------------------
-    // Getters
-    // -----------------------------
     public int getBookingID() {
         return this.bookingID;
     }

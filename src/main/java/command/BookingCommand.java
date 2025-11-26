@@ -4,5 +4,4 @@ import model.Booking;
 
 public interface BookingCommand {
     Booking execute() ;
-    //void execute();
 }

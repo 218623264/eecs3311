@@ -19,7 +19,7 @@ public class CancelBookingCommand implements BookingCommand {
     public Booking execute() {
 
         String csvPath = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
-        //String csvPath = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv";
+
         boolean removed = false;
         List<String> updatedLines = new ArrayList<>();
 
@@ -52,14 +52,5 @@ public class CancelBookingCommand implements BookingCommand {
         this.booking.setStatus(Cancelled);
 
         return this.booking;
-
-        // Update internal repository (or CSV) to mark as Cancelled
-        //BookingRepository.cancelBooking(this.booking.getBookingID());
-
-        // Update in-memory object state
-        //this.booking.setStatus(Cancelled);
-
-        // Return the same booking object for UI confirmation
-        //return this.booking;
     }
 }

@@ -12,7 +12,6 @@ import java.time.format.DateTimeFormatter;
 public class CreateBookingCommand implements BookingCommand {
 
     private static final String BOOKINGS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
-    //private static final String BOOKINGS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\bookings.csv";
 
     private Booking booking;
     private User user;
@@ -34,11 +33,6 @@ public class CreateBookingCommand implements BookingCommand {
 
         this.booking = new Booking(this.user, this.room, this.checkInTime, this.checkOutTime);
 
-        //long hours = (long) Math.ceil(Duration.between(checkIn, checkOut).toMinutes() / 60.0);
-        //double rate = getHourlyRate(user.getAccountType());
-        //double totalPrice = hours * rate;
-        //booking.setTotalPrice(totalPrice);
-
         saveBookingToCsv(this.booking);
         room.setOccupied(true);
 
@@ -55,7 +49,7 @@ public class CreateBookingCommand implements BookingCommand {
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
 
-            // write header if new file or empty
+            // If new file or empty
             if (!fileExists || file.length() == 0) {
                 out.println("bookingID, roomID, checkInTime, checkOutTime, deposit, user, totalPrice, status");
             }
@@ -66,8 +60,7 @@ public class CreateBookingCommand implements BookingCommand {
                     booking.getCheckInTime().format(fmt),
                     booking.getCheckOutTime().format(fmt),
                     booking.getDepositAmount(),
-                    // "user" column: per your choice B, this should be organizationID
-                    booking.getUser().getID(),  // or whatever getter you use
+                    booking.getUser().getID(),
                     booking.getTotalPrice(),
                     booking.getStatus()
             );

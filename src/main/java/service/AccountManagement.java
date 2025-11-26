@@ -120,23 +120,11 @@ public class AccountManagement {
         return hasUpper && hasLower && hasDigit && hasSymbol;
     }
 
-    /*
-    public static User findUserByEmail(String email) {
-        for (User u : users) {
-            if (u.getEmail().equalsIgnoreCase(email)) {
-                return u;
-            }
-        }
-        return null;
-    }
-     */
-
     public static User findUserByEmail(String email) {
         String path = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
-        //String path = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line = br.readLine(); // skip header
+            String line = br.readLine();
 
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;

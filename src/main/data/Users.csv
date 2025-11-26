@@ -1,3 +1,2 @@
 ﻿email,password,userType,userID,verified
-wangzh64@my.yorku.ca,Ab1@,Student,218623264,TRUE
-partner@gmail.com,Ab1@,Partner,,FALSE
+admin@yorku.ca,Admin01@,Admin,admin,TRUE

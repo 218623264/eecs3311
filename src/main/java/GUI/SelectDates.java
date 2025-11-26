@@ -70,7 +70,7 @@ public class SelectDates extends JPanel {
         checkInField = new JTextField(20);
         checkInField.setFont(new Font("SansSerif", Font.PLAIN, 14));
         checkInField.setBorder(new LineBorder(new Color(0xCED4DA), 1, true));
-        //checkInField.setText(LocalDateTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))); // Default: 1 hour from now
+
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
@@ -86,20 +86,11 @@ public class SelectDates extends JPanel {
         checkOutField = new JTextField(20);
         checkOutField.setFont(new Font("SansSerif", Font.PLAIN, 14));
         checkOutField.setBorder(new LineBorder(new Color(0xCED4DA), 1, true));
-        //checkOutField.setText(LocalDateTime.now().plusHours(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))); // Default: 2 hours from now
+
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.gridwidth = 2;
         add(checkOutField, gbc);
-
-        /*
-        // Deposit Amount
-        depositLabel = new JLabel(getDepositText());
-        depositLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-        depositLabel.setForeground(new Color(0x28A745));
-        gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2;
-        add(depositLabel, gbc);
-         */
 
         // Warning Message
         warningLabel = new JLabel("⚠️ If you do not check in within 30 minutes of the start time, the deposit is lost. Otherwise, it is applied to the final cost.");

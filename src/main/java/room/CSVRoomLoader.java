@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+// Loads room data from a CSV file and adds them to the repository
 public class CSVRoomLoader {
 
     public static void loadRooms(String filePath) {
@@ -18,6 +19,7 @@ public class CSVRoomLoader {
                 int capacity = Integer.parseInt(data[1]);
                 String buildingName = data[2];
                 String roomNumber = data[3];
+                // Create a room object from CSV row
 
                 Room room = new Room(roomID, capacity, buildingName, roomNumber);
                 RoomRepository.addRoom(room);

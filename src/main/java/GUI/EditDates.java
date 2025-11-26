@@ -21,7 +21,6 @@ public class EditDates extends JPanel {
     private User currentUser;
     private String bookingID;
 
-    // Components
     private JTextField checkInField, checkOutField;
     private JButton confirmButton, backButton;
 

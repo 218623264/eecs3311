@@ -11,35 +11,49 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+/**
+ * EECS3311 Team 11
+ * Zhenghao (Felix) Wang - 218623264
+ * Loveneek Singh - 220120317
+ * Ashdeep Singh - 220699856
+ * Manjot Kaur - 219170430
+ */
 public class MainUI extends JFrame {
 
-    //ivate static final String USERS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
+    // ******************------------------------------------------------------------------------------------------------------------
+    // If you are trying to signup as a student/staff/faculty/admin, the system will ask you to enter your userID.
+    // Available userID(s) for signup are 218623264 (student), 220120317 (student), 220699856 (student), F1001 (faculty), ST9001(staff), admin(admin).
+    // You may also check /src/main/data/UAccounts.csv for available student/staff/faculty accounts.
+    // Only the admin account is able to enable/disable a room manually. To login as admin, use email admin@yorku.ca, password Admin01@
+    // Admin account is the only account pre-written in the database for grading purposes.
+    // ******************------------------------------------------------------------------------------------------------------------
+
     private static final String USERS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
 
-    // Constants for styling
-    private static final Color PRIMARY_COLOR = new Color(0x007BFF); // Blue theme
-    private static final Color SECONDARY_COLOR = new Color(0x6C757D); // Gray
-    private static final Color BACKGROUND_COLOR = new Color(0xF8F9FA); // Light background
+    // UI
+    private static final Color PRIMARY_COLOR = new Color(0x007BFF);
+    private static final Color SECONDARY_COLOR = new Color(0x6C757D);
+    private static final Color BACKGROUND_COLOR = new Color(0xF8F9FA);
     private static final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 24);
     private static final Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 14);
     private static final int BORDER_RADIUS = 10;
 
-    // Components
+    // UI components
     private JPanel mainPanel;
     private JLabel titleLabel;
     private JTextField emailField, passwordField, roomIdField;
     private JComboBox<String> userTypeCombo;
     private JButton signupButton, loginButton;
-    //private JButton bookButton;
 
     private User user;
 
     public MainUI() {
+
         initializeLookAndFeel();
         setTitle("York University Conference Room Scheduler");
-        setSize(600, 400);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center on screen
+        setLocationRelativeTo(null);
         getContentPane().setBackground(BACKGROUND_COLOR);
 
         // Main panel with padding
@@ -54,7 +68,7 @@ public class MainUI extends JFrame {
         // User type selection
         JLabel userTypeLabel = createStyledLabel("User Type:", LABEL_FONT, SECONDARY_COLOR);
         addComponent(mainPanel, userTypeLabel, 0, 1, 1, 1, GridBagConstraints.WEST);
-        userTypeCombo = new JComboBox<>(new String[]{"Student", "Faculty", "Staff", "Partner"});
+        userTypeCombo = new JComboBox<>(new String[]{"Student", "Faculty", "Staff", "Partner", "Admin"});
         styleComboBox(userTypeCombo);
         addComponent(mainPanel, userTypeCombo, 1, 1, 1, 1, GridBagConstraints.EAST);
 
@@ -71,21 +85,13 @@ public class MainUI extends JFrame {
         styleTextField(passwordField);
         addComponent(mainPanel, passwordField, 1, 3, 1, 1, GridBagConstraints.EAST);
 
-        /*
-        // Room ID field
-        JLabel roomIdLabel = createStyledLabel("Room ID:", LABEL_FONT, SECONDARY_COLOR);
-        addComponent(mainPanel, roomIdLabel, 0, 4, 1, 1, GridBagConstraints.WEST);
-        roomIdField = createStyledTextField();
-        addComponent(mainPanel, roomIdField, 1, 4, 1, 1, GridBagConstraints.EAST);
-         */
-
         // Buttons panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(BACKGROUND_COLOR);
 
         JButton signupButton = createStyledButton("Signup", PRIMARY_COLOR);
         signupButton.addActionListener(e -> {
-            // Switch to SignupPanel, passing mainFrame and mainPanel for back navigation
+
             Signup signupPanel = new Signup(this, mainPanel);
             setContentPane(signupPanel);
             revalidate();
@@ -97,19 +103,12 @@ public class MainUI extends JFrame {
         loginButton.addActionListener(new LoginAction());
         buttonPanel.add(loginButton);
 
-        /*
-        bookButton = createStyledButton("Book Room", PRIMARY_COLOR);
-        bookButton.addActionListener(new BookAction());
-        buttonPanel.add(bookButton);
-        */
-
         addComponent(mainPanel, buttonPanel, 0, 5, 2, 1, GridBagConstraints.CENTER);
 
         add(mainPanel);
         setVisible(true);
     }
 
-    // Helper method to initialize Nimbus Look and Feel
     private void initializeLookAndFeel() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -123,7 +122,7 @@ public class MainUI extends JFrame {
         }
     }
 
-    // Helper to create styled label
+    // Helper to create label
     private JLabel createStyledLabel(String text, Font font, Color color) {
         JLabel label = new JLabel(text);
         label.setFont(font);
@@ -131,28 +130,28 @@ public class MainUI extends JFrame {
         return label;
     }
 
-    // Helper to create styled text field with rounded border
+    // Helper to create text field
     private JTextField createStyledTextField() {
         JTextField field = new JTextField(20);
         styleTextField(field);
         return field;
     }
 
-    // Style text field or password field
+    // Text or password field
     private void styleTextField(JTextField field) {
         field.setBorder(new LineBorder(SECONDARY_COLOR, 1, true)); // Rounded border
         field.setFont(LABEL_FONT);
         field.setBackground(Color.WHITE);
     }
 
-    // Style combo box
+    // Combo box
     private void styleComboBox(JComboBox<?> combo) {
         combo.setFont(LABEL_FONT);
         combo.setBackground(Color.WHITE);
         combo.setBorder(new LineBorder(SECONDARY_COLOR, 1, true));
     }
 
-    // Helper to create styled button with gradient
+    // Helper to create button
     private JButton createStyledButton(String text, Color color) {
         JButton button = new JButton(text) {
             @Override
@@ -167,7 +166,7 @@ public class MainUI extends JFrame {
         };
         button.setFont(LABEL_FONT);
         button.setForeground(Color.WHITE);
-        button.setContentAreaFilled(false); // For custom paint
+        button.setContentAreaFilled(false);
         button.setBorder(new LineBorder(color.darker(), 1, true));
         button.setPreferredSize(new Dimension(120, 40));
         return button;
@@ -187,7 +186,7 @@ public class MainUI extends JFrame {
     }
 
 
-    // Action Listener for Signup (Placeholder)
+    // Action Listener for Signup
     private class SignupAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -204,7 +203,6 @@ public class MainUI extends JFrame {
             String password = new String(((JPasswordField) passwordField).getPassword());
             String type = (String) userTypeCombo.getSelectedItem();
 
-            // (Correct code, greyed out for development phase)
             if (email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please fill in both email and password!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -223,18 +221,6 @@ public class MainUI extends JFrame {
                 revalidate();
                 repaint();
 
-            /*
-            // For development phase only. Delete after
-            if (validateLogin()) {
-
-                JOptionPane.showMessageDialog(null, "Login successful!");
-
-                // To RoomsUI
-                RoomsUI roomsUI = new RoomsUI(MainUI.this, mainPanel);
-                setContentPane(roomsUI);
-                revalidate();
-                repaint();
-            */
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid email, password, or user type!", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -242,10 +228,9 @@ public class MainUI extends JFrame {
         }
     }
 
-    // (Correct code, greyed out for development phase)
     private boolean validateLogin(String email, String password, String type) {
         try (BufferedReader br = new BufferedReader(new FileReader(USERS_PATH))) {
-            String line = br.readLine(); // Skip header
+            String line = br.readLine();
 
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
@@ -268,20 +253,6 @@ public class MainUI extends JFrame {
         }
         return false;
     }
-
-    // For development phase only, delete after
-    //private boolean  validateLogin() {return true;}
-
-    /*
-    // Action Listener for Book Room (Placeholder)
-    private class BookAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // Implement booking logic (Req3)
-            JOptionPane.showMessageDialog(null, "Room booked successfully!");
-        }
-    }
-    */
 
     public void setUser(User user) {
         this.user = user;

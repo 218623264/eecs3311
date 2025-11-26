@@ -31,7 +31,7 @@ public class RoomsUI extends JPanel {
         title.setBorder(new EmptyBorder(0, 0, 40, 0));
         add(title, BorderLayout.NORTH);
 
-        // Main buttons panel — Improved layout to prevent clipping
+        // Main buttons
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setBackground(new Color(0xF8F9FA));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -53,7 +53,7 @@ public class RoomsUI extends JPanel {
 
         add(buttonPanel, BorderLayout.CENTER);
 
-        // Footer with Back button (separate panel to avoid overlap)
+        // Footer with Back button
         JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         footerPanel.setBackground(new Color(0xF8F9FA));
         footerPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
@@ -82,7 +82,6 @@ public class RoomsUI extends JPanel {
     private class CheckBookingsAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Now instantiates the new ExistingBookingUI class
             ExistingBooking existingBooking = new ExistingBooking(parentFrame, RoomsUI.this, user);
             parentFrame.setContentPane(existingBooking);
             parentFrame.revalidate();

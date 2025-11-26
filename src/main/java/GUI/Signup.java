@@ -19,25 +19,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A separate class for the Signup panel, handling all signup-related logic and UI.
- * This panel can be added to the main frame's content pane when the Signup button is clicked.
- *
- * Features:
- * - Email validation (unique and valid format).
- * - Password strength check (uppercase, lowercase, number, symbol).
- * - Account type selection (student, faculty, staff, partner; extensible via combo box).
- * - Verification for university accounts (student, faculty, staff) via an additional ID field.
- * - Simulated in-memory user storage for uniqueness check.
- * - Back button to return to the main login panel.
+ * A separate class for the Signup panel
  */
 public class Signup extends JPanel {
 
     private static final String USERS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
     private static final String UACCOUNTS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/UAccounts.csv";
-    //private static final String UACCOUNTS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\UAccounts.csv";
-    //private static final String USERS_PATH = "E:\\York University\\EECS3311\\D2\\eecs3311\\src\\main\\data\\Users.csv";
 
-    // In-memory user storage for simulation (email uniqueness)
     private static List<String> existingEmails = new ArrayList<>();
 
     // Components
@@ -68,7 +56,7 @@ public class Signup extends JPanel {
         // Account Type
         JLabel typeLabel = createStyledLabel("Account Type:");
         addComponent(this, typeLabel, 0, 1, 1, 1, GridBagConstraints.WEST);
-        accountTypeCombo = new JComboBox<>(new String[]{"Student", "Faculty", "Staff", "Partner"});
+        accountTypeCombo = new JComboBox<>(new String[]{"Student", "Faculty", "Staff", "Partner", "Admin"});
         styleComboBox(accountTypeCombo);
         accountTypeCombo.addActionListener(e -> toggleVerificationField());  // Show/hide verification based on type
         addComponent(this, accountTypeCombo, 1, 1, 1, 1, GridBagConstraints.EAST);
@@ -86,10 +74,10 @@ public class Signup extends JPanel {
         styleTextField(passwordField);
         addComponent(this, passwordField, 1, 3, 1, 1, GridBagConstraints.EAST);
 
-        // Verification ID (hidden initially)
+        // Verification ID
         verificationLabel = createStyledLabel("Student/Faculty/Staff ID:");
         idField = createStyledTextField();
-        toggleVerificationField();  // Initial toggle
+        toggleVerificationField();
 
         // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -109,7 +97,7 @@ public class Signup extends JPanel {
     // Toggle visibility of verification field based on account type
     private void toggleVerificationField() {
         String selectedType = (String) accountTypeCombo.getSelectedItem();
-        boolean isUniversityType = selectedType.equals("Student") || selectedType.equals("Faculty") || selectedType.equals("Staff");
+        boolean isUniversityType = selectedType.equals("Student") || selectedType.equals("Faculty") || selectedType.equals("Staff") || selectedType.equals("Admin");
 
         if (isUniversityType) {
             addComponent(this, verificationLabel, 0, 4, 1, 1, GridBagConstraints.WEST);
@@ -122,15 +110,14 @@ public class Signup extends JPanel {
         repaint();
     }
 
-    // ==================== NEW: CSV VERIFICATION & PERSISTENCE ====================
     private boolean verifyUniversityId(String type, String id) {
-        if (type.equals("Partner")) return true; // no verification needed
+        if (type.equals("Partner")) return true; // no verification needed for partners
 
         try (BufferedReader br = new BufferedReader(new FileReader(UACCOUNTS_PATH))) {
             String line = br.readLine(); // Read header line
             if (line == null) return false;
 
-            // Find which column contains "userID" or "id" (case-insensitive)
+            // Find which column contains "userID" or "id"
             String[] headers = line.split(",");
             int idColumnIndex = -1;
             for (int i = 0; i < headers.length; i++) {
@@ -147,15 +134,15 @@ public class Signup extends JPanel {
                 return false;
             }
 
-            // Now read the actual data rows
+            // Read the actual data rows
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
 
                 String[] parts = line.split(",");
                 if (parts.length <= Math.max(1, idColumnIndex)) continue;
 
-                String rowType = parts[0].trim();           // First column = type (student/faculty/staff)
-                String rowId = parts[idColumnIndex].trim(); // Column with header "userID"
+                String rowType = parts[0].trim();
+                String rowId = parts[idColumnIndex].trim();
 
                 if (rowType.equalsIgnoreCase(type) && rowId.equalsIgnoreCase(id.trim())) {
                     return true;
@@ -173,7 +160,7 @@ public class Signup extends JPanel {
         boolean verified = !type.equals("Partner"); // university accounts are verified if ID matched
 
         try (FileWriter writer = new FileWriter(USERS_PATH, true)) {
-            // Add header if file is new
+
             File file = new File(USERS_PATH);
             if (file.length() == 0) {
                 writer.write("email,password,type,id,verified\n");
@@ -184,7 +171,6 @@ public class Signup extends JPanel {
             JOptionPane.showMessageDialog(this, "Failed to save user data", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    // =============================================================================
 
     // Action for Signup button
     private class SignupAction implements ActionListener {
@@ -236,12 +222,11 @@ public class Signup extends JPanel {
 
     // Validation methods
     private boolean isValidEmail(String email) {
-        // Simple regex for valid email
         return Pattern.matches("^[\\w-_.+]*[\\w-_.]@([\\w]+[.])+[\\w]+[\\w]$", email);
     }
 
     private boolean isStrongPassword(String password) {
-        // Check for uppercase, lowercase, number, symbol
+
         if (password == null || password.isEmpty()) return false;
 
         boolean hasUpper = password.matches(".*[A-Z].*");
@@ -252,15 +237,6 @@ public class Signup extends JPanel {
         return hasUpper && hasLower && hasDigit && hasSymbol;
     }
 
-    /*
-    private boolean verifyUniversityId(String userID, String type) {
-        // Simulate verification (e.g., check format)
-        // For student: starts with 'S', etc. In real system, query database/API
-        return !userID.isEmpty();  // Placeholder: assume valid if not empty
-    }
-     */
-
-    // Styling helpers (reused from original GUI for consistency)
     private JLabel createStyledLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(new Font("SansSerif", Font.PLAIN, 14));
