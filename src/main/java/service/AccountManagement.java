@@ -121,7 +121,7 @@ public class AccountManagement {
     }
 
     public static User findUserByEmail(String email) {
-        String path = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
+        String path = System.getProperty("user.dir") + "/src/main/data/Users.csv";
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine();

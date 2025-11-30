@@ -131,7 +131,7 @@ public class EditDates extends JPanel {
 
     private void updateBookingInCSV(String bookingID, LocalDateTime newCheckIn, LocalDateTime newCheckOut) {
 
-        String bookingPath = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
+        String bookingPath = System.getProperty("user.dir") + "/src/main/data/bookings.csv";
         File inputFile = new File(bookingPath);
         File tempFile = new File("booking_temp.csv");
 

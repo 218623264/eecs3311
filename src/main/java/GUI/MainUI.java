@@ -28,7 +28,7 @@ public class MainUI extends JFrame {
     // Admin account is the only account pre-written in the database for grading purposes.
     // ******************------------------------------------------------------------------------------------------------------------
 
-    private static final String USERS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/Users.csv";
+    private static final String USERS_PATH = System.getProperty("user.dir") + "/src/main/data/Users.csv";
 
     // UI
     private static final Color PRIMARY_COLOR = new Color(0x007BFF);
