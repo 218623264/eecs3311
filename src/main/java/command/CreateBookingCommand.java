@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class CreateBookingCommand implements BookingCommand {
 
-    private static final String BOOKINGS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
+     static  String BOOKINGS_PATH = System.getProperty("user.dir") + "/eecs3311/src/main/data/bookings.csv";
 
     private Booking booking;
     private User user;

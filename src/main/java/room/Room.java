@@ -27,6 +27,10 @@ public class Room implements SensorSubject {
         this.roomNumber = roomNumber;
     }
 
+    public Room(String string, double d) {
+        //TODO Auto-generated constructor stub
+    }
+
     @Override
     public void addObserver(SensorObserver observer) {
         observers.add(observer);

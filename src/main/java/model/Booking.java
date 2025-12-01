@@ -116,7 +116,8 @@ public class Booking {
     public void applyDeposit() {
         // TODO: apply deposit rules
         if (this.status == BookingStatus.Pending && LocalDateTime.now().isAfter(this.checkInTime.plusMinutes(30))) {
-            this.depositAmount=0.0;        }
+            this.depositAmount=0.0;      
+        return; }
 
         else  if (this.status != BookingStatus.Completed) {
             throw new IllegalStateException("Deposit can only be applied after booking is completed.");
